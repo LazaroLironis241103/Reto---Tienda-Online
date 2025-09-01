@@ -1,0 +1,9 @@
+<div class="container mt-3">
+  <h2 class="text-center text-warning">Listado de Productos</h2>
+
+  <ul class="list-group w-50 mx-auto">
+    <li *ngFor="let producto of productos" class="list-group-item text-center">
+      {{ producto.descripcion }} - ${{ producto.precio }}
+    </li>
+  </ul>
+</div>
