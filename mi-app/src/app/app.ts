@@ -7,8 +7,9 @@ import { ProductoListado } from "./features/productos/producto-listado/producto-
   standalone: true,
   imports: [RouterOutlet, ProductoListado],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']  
 })
 export class App {
   protected readonly titulo = "Tienda Online";
 }
+
