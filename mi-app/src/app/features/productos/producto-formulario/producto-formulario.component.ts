@@ -22,6 +22,6 @@ export class ProductoFormularioComponent {
     this.nuevoProducto.emit({ descripcion, precio });
 
     this.descripcionInput.nativeElement.value = '';
-    this.precioInput.nativeElement.value = '';
+    this.precioInput.nativeElement.value = null;
   }
 }
