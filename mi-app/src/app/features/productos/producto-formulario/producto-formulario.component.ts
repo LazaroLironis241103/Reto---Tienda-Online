@@ -1,27 +1,44 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ProductoService } from '../producto';
+import { Producto } from '../producto.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-producto-formulario',
   standalone: true,
+  imports: [FormsModule],
   templateUrl: './producto-formulario.html',
   styleUrls: ['./producto-formulario.css']
 })
 export class ProductoFormularioComponent {
-  @ViewChild('descripcionInput') descripcionInput!: ElementRef;
-  @ViewChild('precioInput') precioInput!: ElementRef;
+  // @ViewChild('descripcionInput') descripcionInput!: ElementRef;
+  // @ViewChild('precioInput') precioInput!: ElementRef;
 
-  @Output() nuevoProducto = new EventEmitter<{ descripcion: string; precio: number }>();
+  // @Output() nuevoProducto = new EventEmitter<Producto>();
+
+  descripcionInput: string = '';
+  precioInput: number | null = null;
+
+  constructor(private productoService: ProductoService) {}
 
   agregarProducto(event: Event) {
     event.preventDefault();
-    const descripcion = this.descripcionInput.nativeElement.value.trim();
-    const precio = Number(this.precioInput.nativeElement.value);
+    
+    //Validar que sean valores correctos
+    if(this.descripcionInput.trim() === '' || this.precioInput === null || this.precioInput <= 0) {
+      return;
+    }
 
-    if (!descripcion || precio <= 0) return;
+    const producto = new Producto(this.descripcionInput, this.precioInput);
 
-    this.nuevoProducto.emit({ descripcion, precio });
+    //Agregamos el nuevo producto usando el servicio
+    this.productoService.agregarProducto(producto);
 
-    this.descripcionInput.nativeElement.value = '';
-    this.precioInput.nativeElement.value = null;
+    //Emitimos el nuevo producto al componente padre
+    // this.nuevoProducto.emit(producto);
+
+    //Limpiar los campos de formulario
+    this.descripcionInput = '';
+    this.precioInput = null;
   }
 }
