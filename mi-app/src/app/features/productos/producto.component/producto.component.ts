@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { Producto } from '../producto.model';
+import { ProductoService } from '../producto';
 
 @Component({
   selector: 'app-producto',
@@ -7,5 +9,11 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./producto.component.css']
 })
 export class ProductoComponent {
-  @Input() producto!: { descripcion: string; precio: number };
+  @Input() producto!: Producto;
+
+  constructor(private productoService: ProductoService) {}
+
+  emitirDetalleProducto() {
+    this.productoService.detalleProductoEmmiter.emit(this.producto);
+  }
 }
