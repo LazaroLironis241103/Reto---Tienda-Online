@@ -17,7 +17,7 @@ export class ProductoFormularioComponent {
 
   // @Output() nuevoProducto = new EventEmitter<Producto>();
 
-  productoId: number | null = null;
+  llaveProducto: string | null = null;
   descripcionInput: string = '';
   precioInput: number | null = null;
 
@@ -28,12 +28,12 @@ export class ProductoFormularioComponent {
 
   ngOnInit() {
     // Verificamos si debemos  cargar un producto ya existente
-    const id = this.route.snapshot.paramMap.get('id');
-    if(id) {
-      const producto = this.productoService.getProductoById(Number(id));
+    const llave = this.route.snapshot.paramMap.get('llave');
+    if(llave) {
+      const producto = this.productoService.getProductoByLlave(llave);
       if(producto) {
         // Si encontramos el producto lo cargamos en el formulario
-        this.productoId = producto.id;
+        this.llaveProducto = llave;
         this.descripcionInput = producto.descripcion;
         this.precioInput = producto.precio;
       }
@@ -48,7 +48,7 @@ export class ProductoFormularioComponent {
       return;
     }
 
-    const producto = new Producto(this.productoId ,this.descripcionInput, this.precioInput);
+    const producto = new Producto(this.descripcionInput, this.precioInput);
 
     //Agregamos el nuevo producto usando el servicio
     this.productoService.guardarProducto(producto);
@@ -69,15 +69,15 @@ this.router.navigate(['/']);
   }
 
   eliminarProducto() {
-    if(this.productoId !== null) {
-      this.productoService.eliminarProducto(this.productoId);
+    if(this.llaveProducto !== null) {
+     // this.productoService.eliminarProducto(this.productoId);
       this.limpiarFormulario();
       this.router.navigate(['/']);
     }
   }
   
    limpiarFormulario() {
-    this.productoId = null;
+    this.llaveProducto = null;
     this.descripcionInput = '';
     this.precioInput = null;
    }
