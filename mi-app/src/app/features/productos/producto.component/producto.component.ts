@@ -18,4 +18,5 @@ export class ProductoComponent {
     // Pasamos el id en la URL
     this.router.navigate(['/editar',this.llave])
   }
+  
 }
